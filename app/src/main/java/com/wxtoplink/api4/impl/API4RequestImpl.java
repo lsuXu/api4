@@ -3,14 +3,14 @@ package com.wxtoplink.api4.impl;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.wxtoplink.api4.api4interface.DefaultData;
+import com.wxtoplink.api4.api4interface.API4Request;
 
 
 /**
  * Created by 12852 on 2018/10/29.
  */
 
-public class DefaultDataImpl implements DefaultData {
+public class API4RequestImpl implements API4Request {
     @NonNull
     @Override
     public String getDeviceCode() {

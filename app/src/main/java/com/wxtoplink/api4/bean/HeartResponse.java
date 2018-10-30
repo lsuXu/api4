@@ -28,8 +28,8 @@ public final class HeartResponse {
     public String toString() {
         return "HeartResponse{" +
                 "deviceCode='" + deviceCode + '\'' +
-                ", redBookInfo=" + redBookInfo +
-                ", versionInfo=" + versionInfo +
+                ", redBookInfo=" + redBookInfo.toString() +
+                ", versionInfo=" + versionInfo.toString() +
                 '}';
     }
 }

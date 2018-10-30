@@ -1,15 +1,12 @@
 package com.wxtoplink.api4.unit;
 
 import android.content.Context;
-import android.util.Log;
 
 
 import com.wxtoplink.api4.API4Manager;
-import com.wxtoplink.api4.api4interface.DefaultData;
+import com.wxtoplink.api4.api4interface.API4Request;
 import com.wxtoplink.api4.bean.EventType;
 import com.wxtoplink.api4.bean.Heart;
-import com.wxtoplink.api4.bean.HeartResponse;
-import com.wxtoplink.api4.bean.ResponseData;
 import com.wxtoplink.api4.http.RetrofitHelper;
 import com.wxtoplink.api4.util.ShaUtil;
 
@@ -17,8 +14,6 @@ import java.util.Date;
 
 import okhttp3.MultipartBody;
 import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -30,30 +25,28 @@ public class HeartUnit {
 
     private static final String TAG = HeartUnit.class.getSimpleName();
 
-    private static Subscriber subscriber = null;
-
     //获取心跳对象
     public static Heart getHeartArray(Context context, boolean isInitHeart){
 
-        DefaultData defaultData = API4Manager.getInstance().getDefaultData();
+        API4Request API4Request = API4Manager.getInstance().getAPI4Request();
 
         String eventType = isInitHeart? EventType.TYPE_1.toString():EventType.TYPE_2.toString() ;
 
-        String mac = defaultData.getMac(context) ;
+        String mac = API4Request.getMac(context) ;
 
         String sendTime = String.valueOf(new Date().getTime()/1000);
 
-        String versionCode = defaultData.getVersionCode(context);
+        String versionCode = API4Request.getVersionCode(context);
 
-        String appKey = defaultData.getAppKey();
+        String appKey = API4Request.getAppKey();
 
-        String sign = ShaUtil.encryptToSHA(String.format("%s%s%s%s%s",appKey,defaultData.getAPPSecret(),mac,sendTime,versionCode));
+        String sign = ShaUtil.encryptToSHA(String.format("%s%s%s%s%s",appKey, API4Request.getAPPSecret(),mac,sendTime,versionCode));
 
-        String cid = defaultData.getCid();
+        String cid = API4Request.getCid();
 
-        String deviceCode = defaultData.getDeviceCode();
+        String deviceCode = API4Request.getDeviceCode();
 
-        String eventData = defaultData.getEventData();
+        String eventData = API4Request.getEventData();
 
         return new Heart(eventType,mac,versionCode,cid,deviceCode,sendTime,appKey,sign,eventData);
     }
@@ -79,24 +72,8 @@ public class HeartUnit {
 
     //上传心跳
     public static void sendHeart(Context context, boolean init){
-        if(subscriber != null){
-            getHeartObservable(context,init).subscribe(subscriber);
-        }else {
-            getHeartObservable(context, init)
-                    .subscribe(new Action1<ResponseData<HeartResponse>>() {
-                        @Override
-                        public void call(ResponseData<HeartResponse> responseResponseData) {
-                            Log.i(TAG, String.format("response data = %s", responseResponseData.toString()));
-                            API4Manager.getInstance().getApi4CallBack().setDeviceCode(responseResponseData.getData().getDeviceCode());
-                        }
-                    }, new Action1<Throwable>() {
-                        @Override
-                        public void call(Throwable throwable) {
-                            throwable.printStackTrace();
-                            API4Manager.getInstance().getApi4CallBack().onError(throwable);
-                        }
-                    });
-        }
+        getHeartObservable(context, init)
+                .subscribe(API4Manager.getInstance().getApi4Response().getHeartSubscribe());
     }
 
     public static MultipartBody.Part getPart(String key, String value){

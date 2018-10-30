@@ -1,8 +1,6 @@
 package com.wxtoplink.api4.http;
 
 
-import android.util.Log;
-
 import com.wxtoplink.api4.API4Manager;
 
 import java.io.IOException;
@@ -51,7 +49,7 @@ public class RetrofitHelper {
                 .client(httpClientBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl(API4Manager.getInstance().getDefaultData().getBaseUrl())
+                .baseUrl(API4Manager.getInstance().getAPI4Request().getBaseUrl())
                 .build();
 
         api4Services = retrofit.create(API4Services.class);

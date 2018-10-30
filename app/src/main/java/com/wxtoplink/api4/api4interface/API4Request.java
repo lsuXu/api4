@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
  * Created by 12852 on 2018/10/29.
  */
 
-public interface DefaultData {
+public interface API4Request {
 
     //获取设备编号
     @NonNull

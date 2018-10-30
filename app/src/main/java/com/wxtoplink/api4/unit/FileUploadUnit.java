@@ -1,15 +1,14 @@
 package com.wxtoplink.api4.unit;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.wxtoplink.api4.API4Manager;
-import com.wxtoplink.api4.adapt.SubscribeAdapt;
-import com.wxtoplink.api4.api4interface.DefaultData;
+import com.wxtoplink.api4.api4interface.API4Request;
 import com.wxtoplink.api4.http.RetrofitHelper;
 import com.wxtoplink.api4.util.ShaUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Date;
 
 import okhttp3.MultipartBody;
@@ -26,8 +25,6 @@ public class FileUploadUnit {
 
     private static final String TAG = FileUploadUnit.class.getSimpleName();
 
-    private static Subscriber subscriber = null;
-
     public static void getUploadObservable(String filePath, Context context){
         getUploadObservable(new File(filePath),context);
     }
@@ -36,33 +33,34 @@ public class FileUploadUnit {
         if(file.exists()){
             RequestBody requestBody = RequestBody.create(API4Manager.MEDIA_TYPE_FORM,file);
             MultipartBody.Part filePart = MultipartBody.Part.createFormData("eventFile",file.getName(),requestBody);
-            DefaultData defaultData = API4Manager.getInstance().getDefaultData();
+            API4Request API4Request = API4Manager.getInstance().getAPI4Request();
 
-            String mac = defaultData.getMac(context) ;
+            String mac = API4Request.getMac(context) ;
 
             String sendTime = String.valueOf(new Date().getTime()/1000);
 
-            String versionCode = defaultData.getVersionCode(context);
+            String versionCode = API4Request.getVersionCode(context);
 
-            String appKey = defaultData.getAppKey();
+            String appKey = API4Request.getAppKey();
 
-            String sign = ShaUtil.encryptToSHA(String.format("%s%s%s%s%s",appKey,defaultData.getAPPSecret(),mac,sendTime,versionCode));
+            String sign = ShaUtil.encryptToSHA(String.format("%s%s%s%s%s",appKey, API4Request.getAPPSecret(),mac,sendTime,versionCode));
 
-            String deviceCode = defaultData.getDeviceCode();
+            String deviceCode = API4Request.getDeviceCode();
 
             return RetrofitHelper.getInstance().getApi4Services()
                     .api4FileUpload(filePart,
-                            getPart("mac",defaultData.getMac(context)),
-                            getPart("versionCode",defaultData.getVersionCode(context)),
+                            getPart("mac", API4Request.getMac(context)),
+                            getPart("versionCode", API4Request.getVersionCode(context)),
                             getPart("sendTime", String.valueOf(new Date().getTime()/1000)),
-                            getPart("appKey",defaultData.getAppKey()),
+                            getPart("appKey", API4Request.getAppKey()),
                             getPart("sign",sign),
                             getPart("deviceCode",deviceCode))
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io());
         }
 
-        Log.e(TAG, String.format("File %s is not exist",file.getAbsolutePath()));
+        API4Manager.getInstance().getApi4Response()
+                .onError(new FileNotFoundException(String.format("Error uploading file,file %s does not exist",file.getAbsolutePath())));
         return Observable.empty();
     }
 
@@ -71,23 +69,15 @@ public class FileUploadUnit {
     }
 
     public static void fileUpload(File file, Context context){
-        if(subscriber != null){
-            getUploadObservable(file,context).subscribe(subscriber);
-        }else {
-            getUploadObservable(file, context).subscribe(new SubscribeAdapt(){
-                @Override
-                public void onError(Throwable e) {
-                    super.onError(e);
-                    API4Manager.getInstance().getApi4CallBack().onError(e);
-                }
+        getUploadObservable(file, context).subscribe(API4Manager.getInstance().getApi4Response().getFileUploadObservable());
+    }
 
-                @Override
-                public void onNext(Object o) {
-                    super.onNext(o);
-                    Log.i(TAG, String.format("upload file resoult = %s",o));
-                }
-            });
-        }
+    public static void fileUpload(File file,Context context,Subscriber subscriber){
+        getUploadObservable(file,context).subscribe(subscriber);
+    }
+
+    public static void fileUpload(String filePath,Context context,Subscriber subscriber){
+        fileUpload(new File(filePath),context,subscriber);
     }
 
     public static MultipartBody.Part getPart(String key, String value){
