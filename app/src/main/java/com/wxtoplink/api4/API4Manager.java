@@ -5,10 +5,12 @@ import android.content.Context;
 
 import com.wxtoplink.api4.api4interface.API4Response;
 import com.wxtoplink.api4.api4interface.API4Request;
+import com.wxtoplink.api4.bean.ErrorBean;
 import com.wxtoplink.api4.sqlite.InteractiveDataBuilder;
 import com.wxtoplink.api4.sqlite.SqliteOperateUtil;
 import com.wxtoplink.api4.unit.FileUploadUnit;
 import com.wxtoplink.api4.unit.HeartUnit;
+import com.wxtoplink.api4.unit.UncaughtExceptionUnit;
 
 import java.io.File;
 
@@ -16,6 +18,10 @@ import okhttp3.MediaType;
 import rx.Subscriber;
 
 /**
+ * API4主要提供模块：
+ * 1.文件上传模块（日志，批量数据）
+ * 2.心跳模块（心跳数据获取，心跳上传）
+ * 3.异常模块（异常数据获取，保存日常信息，获取异常信息的包装bean）
  * Created by 12852 on 2018/10/29.
  */
 
@@ -58,10 +64,11 @@ public final class API4Manager {
             return null;
     }
 
-    //发送心跳
-    public void sendHeart(Context context, boolean init){
+    //获取心跳单元
+    public HeartUnit getHeartUnit(){
         if(checkInit())
-            HeartUnit.sendHeart(context,init);
+            HeartUnit.getInstance();
+        return null ;
     }
 
     //上传文件接口（使用统一回调处理）
@@ -86,6 +93,16 @@ public final class API4Manager {
     public void uploadFile(File file, Context context, Subscriber subscriber){
         if(checkInit())
             FileUploadUnit.fileUpload(file,context,subscriber);
+    }
+
+    //获取数据库操作工具
+    public SqliteOperateUtil getSqliteOperateUtil(){
+        return SqliteOperateUtil.getInstance();
+    }
+
+    //获取错误日志工具
+    public UncaughtExceptionUnit getExceptionUnit(){
+        return UncaughtExceptionUnit.getInstance();
     }
 
     //检查初始化

@@ -30,7 +30,7 @@ public final class ResponseData<T> {
     public String toString() {
         return "ResponseData{" +
                 "code=" + code +
-                ", data=" + data.toString() +
+                ", data=" + data +
                 '}';
     }
 }

@@ -26,7 +26,7 @@ public class HeartUnit {
     private static final String TAG = HeartUnit.class.getSimpleName();
 
     //获取心跳对象
-    public static Heart getHeartArray(Context context, boolean isInitHeart){
+    public Heart getHeartArray(Context context, boolean isInitHeart){
 
         API4Request API4Request = API4Manager.getInstance().getAPI4Request();
 
@@ -52,7 +52,7 @@ public class HeartUnit {
     }
 
     //生成上报的心跳Observable对象
-    public static Observable getHeartObservable(Context context , boolean init){
+    public Observable getHeartObservable(Context context , boolean init){
         Heart heart = getHeartArray(context,init);
 
         return RetrofitHelper.getInstance().getApi4Services().api4Inti(
@@ -71,12 +71,20 @@ public class HeartUnit {
     }
 
     //上传心跳
-    public static void sendHeart(Context context, boolean init){
+    public void sendHeart(Context context, boolean init){
         getHeartObservable(context, init)
                 .subscribe(API4Manager.getInstance().getApi4Response().getHeartSubscribe());
     }
 
-    public static MultipartBody.Part getPart(String key, String value){
+    private static MultipartBody.Part getPart(String key, String value){
         return MultipartBody.Part.createFormData(key,value);
     }
+
+    private HeartUnit(){};
+
+    private static final HeartUnit instance = new HeartUnit();
+
+    public static HeartUnit getInstance(){
+        return instance;
+    };
 }

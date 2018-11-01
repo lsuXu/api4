@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * SHA1加密
  * Created by 12852 on 2018/10/29.
  */
 
