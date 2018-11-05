@@ -8,7 +8,7 @@ import com.wxtoplink.api4.api4interface.API4Request;
 import com.wxtoplink.api4.bean.EventType;
 import com.wxtoplink.api4.bean.Heart;
 import com.wxtoplink.api4.http.RetrofitHelper;
-import com.wxtoplink.api4.util.ShaUtil;
+import com.wxtoplink.api4.util.EncryptionCheckUtil;
 
 import java.util.Date;
 
@@ -40,7 +40,7 @@ public class HeartUnit {
 
         String appKey = API4Request.getAppKey();
 
-        String sign = ShaUtil.encryptToSHA(String.format("%s%s%s%s%s",appKey, API4Request.getAPPSecret(),mac,sendTime,versionCode));
+        String sign = EncryptionCheckUtil.encryptToSHA(String.format("%s%s%s%s%s",appKey, API4Request.getAPPSecret(),mac,sendTime,versionCode));
 
         String cid = API4Request.getCid();
 

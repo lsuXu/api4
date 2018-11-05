@@ -5,7 +5,7 @@ import android.content.Context;
 import com.wxtoplink.api4.API4Manager;
 import com.wxtoplink.api4.api4interface.API4Request;
 import com.wxtoplink.api4.http.RetrofitHelper;
-import com.wxtoplink.api4.util.ShaUtil;
+import com.wxtoplink.api4.util.EncryptionCheckUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,7 +43,7 @@ public class FileUploadUnit {
 
             String appKey = API4Request.getAppKey();
 
-            String sign = ShaUtil.encryptToSHA(String.format("%s%s%s%s%s",appKey, API4Request.getAPPSecret(),mac,sendTime,versionCode));
+            String sign = EncryptionCheckUtil.encryptToSHA(String.format("%s%s%s%s%s",appKey, API4Request.getAPPSecret(),mac,sendTime,versionCode));
 
             String deviceCode = API4Request.getDeviceCode();
 

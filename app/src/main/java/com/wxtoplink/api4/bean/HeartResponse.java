@@ -6,11 +6,13 @@ package com.wxtoplink.api4.bean;
 
 public final class HeartResponse {
 
-    private String deviceCode ;
+    private String deviceCode;
 
-    private Object redBookInfo ;
+    private Object redBookInfo;
 
-    private VersionInfo versionInfo ;
+    private VersionInfo versionInfo;
+
+    private Resource resource;
 
     public String getDeviceCode() {
         return deviceCode;
@@ -24,12 +26,17 @@ public final class HeartResponse {
         return versionInfo;
     }
 
+    public Resource getResource() {
+        return resource;
+    }
+
     @Override
     public String toString() {
         return "HeartResponse{" +
                 "deviceCode='" + deviceCode + '\'' +
                 ", redBookInfo=" + redBookInfo +
                 ", versionInfo=" + versionInfo +
+                ", resource=" + resource +
                 '}';
     }
 }
