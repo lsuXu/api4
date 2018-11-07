@@ -2,7 +2,7 @@ package com.wxtoplink.api4.util;
 
 import android.support.annotation.NonNull;
 
-import com.wxtoplink.api4.bean.ResourceFile;
+import com.wxtoplink.api4.sqlite.bean.ResourceFile;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
@@ -23,7 +23,7 @@ public class ResourceFileUtil {
      * @param ignoreFolderName 需要过滤的文件夹名称
      * @return 本地资源文件信息列表
      */
-    public List<ResourceFile> getLocalResourceList(@NonNull String filePath, String... ignoreFolderName) {
+    public static List<ResourceFile> getLocalResourceList(@NonNull String filePath, String... ignoreFolderName) {
         return getLocalResourceList(new File(filePath), ignoreFolderName);
     }
 
@@ -34,7 +34,7 @@ public class ResourceFileUtil {
      * @param ignoreFolderName 需要过滤的文件夹名称
      * @return 本地资源文件信息列表
      */
-    public List<ResourceFile> getLocalResourceList(@NotNull File folder, String... ignoreFolderName) {
+    public static List<ResourceFile> getLocalResourceList(@NotNull File folder, String... ignoreFolderName) {
         if (folder.exists() && folder.isDirectory()) {
             for (String ignoreName : ignoreFolderName) {
                 if (folder.getName().equals(ignoreName)) {
@@ -67,7 +67,7 @@ public class ResourceFileUtil {
      * @param targetLocalFilePath 指定的本地文件路径
      * @return 同一文件返回true, 不同文件返回false;
      */
-    public boolean checkResourceFile(@NotNull ResourceFile resourceFile, @NotNull String targetLocalFilePath) {
+    public static boolean checkResourceFile(@NotNull ResourceFile resourceFile, @NotNull String targetLocalFilePath) {
         return checkResourceFile(resourceFile,new File(targetLocalFilePath));
     }
 
@@ -78,7 +78,7 @@ public class ResourceFileUtil {
      * @param targetLocalFile 指定的本地文件
      * @return 同一文件返回true, 不同文件返回false;
      */
-    public boolean checkResourceFile(@NotNull ResourceFile resourceFile, @NotNull File targetLocalFile) {
+    public static boolean checkResourceFile(@NotNull ResourceFile resourceFile, @NotNull File targetLocalFile) {
         if (targetLocalFile.exists() && targetLocalFile.isFile()) {
             if (Long.parseLong(resourceFile.getSize()) == targetLocalFile.length()) {
                 String localFileMd5 = EncryptionCheckUtil.md5sum(targetLocalFile.getAbsolutePath());

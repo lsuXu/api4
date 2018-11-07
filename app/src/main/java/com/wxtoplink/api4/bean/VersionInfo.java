@@ -6,18 +6,18 @@ package com.wxtoplink.api4.bean;
 
 public final class VersionInfo {
 
-    private String versionInfo ;
+    private String versionCode ;
 
     private String apkUrl ;
 
     private String updateTime ;
 
-    public String getVersionInfo() {
-        return versionInfo;
+    public String getVersionCode() {
+        return versionCode;
     }
 
-    public void setVersionInfo(String versionInfo) {
-        this.versionInfo = versionInfo;
+    public void setVersionCode(String versionCode) {
+        this.versionCode = versionCode;
     }
 
     public String getApkUrl() {
@@ -39,7 +39,7 @@ public final class VersionInfo {
     @Override
     public String toString() {
         return "VersionInfo{" +
-                "versionInfo='" + versionInfo + '\'' +
+                "versionCode='" + versionCode + '\'' +
                 ", apkUrl='" + apkUrl + '\'' +
                 ", updateTime='" + updateTime + '\'' +
                 '}';

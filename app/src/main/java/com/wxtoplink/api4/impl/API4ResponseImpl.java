@@ -7,7 +7,7 @@ import com.wxtoplink.api4.api4interface.API4Response;
 import com.wxtoplink.api4.bean.HeartResponse;
 import com.wxtoplink.api4.bean.ResponseData;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
 
 
 /**
@@ -20,7 +20,7 @@ public class API4ResponseImpl implements API4Response {
 
     //心跳回调处理
     @Override
-    public Subscriber<ResponseData<HeartResponse>> getHeartSubscribe() {
+    public Observer<ResponseData<HeartResponse>> getHeartSubscribe() {
         return new SubscribeAdapt<ResponseData<HeartResponse>>(){
             @Override
             public void onError(Throwable e) {
@@ -39,7 +39,7 @@ public class API4ResponseImpl implements API4Response {
 
     //文件上传回调处理
     @Override
-    public Subscriber<ResponseData> getFileUploadObservable() {
+    public Observer<ResponseData> getFileUploadObservable() {
         return new SubscribeAdapt<ResponseData>(){
             @Override
             public void onError(Throwable e) {

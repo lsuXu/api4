@@ -2,20 +2,23 @@ package com.wxtoplink.api4;
 
 import android.content.Context;
 
-
 import com.wxtoplink.api4.api4interface.API4Response;
 import com.wxtoplink.api4.api4interface.API4Request;
-import com.wxtoplink.api4.bean.ErrorBean;
 import com.wxtoplink.api4.sqlite.InteractiveDataBuilder;
 import com.wxtoplink.api4.sqlite.SqliteOperateUtil;
 import com.wxtoplink.api4.unit.FileUploadUnit;
 import com.wxtoplink.api4.unit.HeartUnit;
 import com.wxtoplink.api4.unit.UncaughtExceptionUnit;
+import com.wxtoplink.api4.unit.CommonInterfaceUnit;
 
 import java.io.File;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 import okhttp3.MediaType;
-import rx.Subscriber;
+import okhttp3.MultipartBody;
+import retrofit2.http.Part;
+import retrofit2.http.Url;
 
 /**
  * API4主要提供模块：
@@ -66,8 +69,9 @@ public final class API4Manager {
 
     //获取心跳单元
     public HeartUnit getHeartUnit(){
-        if(checkInit())
-            HeartUnit.getInstance();
+        if(checkInit()) {
+            return HeartUnit.getInstance();
+        }
         return null ;
     }
 
@@ -84,15 +88,25 @@ public final class API4Manager {
     }
 
     //上传文件接口（自定义回调处理）
-    public void uploadFile(String filePath, Context context, Subscriber subscriber){
+    public void uploadFile(String filePath, Context context, Observer observer){
         if(checkInit())
-            FileUploadUnit.fileUpload(filePath,context,subscriber);
+            FileUploadUnit.fileUpload(filePath,context,observer);
     }
 
     //上传文件接口（自定义回调处理）
-    public void uploadFile(File file, Context context, Subscriber subscriber){
+    public void uploadFile(File file, Context context, Observer observer){
         if(checkInit())
-            FileUploadUnit.fileUpload(file,context,subscriber);
+            FileUploadUnit.fileUpload(file,context,observer);
+    }
+
+    //标准返回接口，携带APP相关信息
+    public void standCommonInterface(Object obj,Context context,Observer observer){
+        CommonInterfaceUnit.standardCommonInterface(obj,context,observer);
+    }
+
+    //通用数据接口
+    public Observable<Object> commonInterface(@Url String url , @Part MultipartBody.Part... commonDataPart){
+        return CommonInterfaceUnit.getCommonInterface(url,commonDataPart);
     }
 
     //获取数据库操作工具

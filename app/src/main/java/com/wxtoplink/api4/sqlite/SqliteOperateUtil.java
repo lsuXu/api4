@@ -7,12 +7,18 @@ import com.wxtoplink.api4.sqlite.bean.BodyInduction;
 import com.wxtoplink.api4.sqlite.bean.Btn;
 import com.wxtoplink.api4.sqlite.bean.Customer;
 import com.wxtoplink.api4.sqlite.bean.Product;
+import com.wxtoplink.api4.sqlite.bean.ResourceFile;
 import com.wxtoplink.api4.sqlite.db.BodyInductionDao;
 import com.wxtoplink.api4.sqlite.db.BtnDao;
 import com.wxtoplink.api4.sqlite.db.CustomerDao;
 import com.wxtoplink.api4.sqlite.db.DaoMaster;
 import com.wxtoplink.api4.sqlite.db.DaoSession;
 import com.wxtoplink.api4.sqlite.db.ProductDao;
+import com.wxtoplink.api4.sqlite.db.ResourceFileDao;
+
+import org.greenrobot.greendao.query.Query;
+
+import java.util.List;
 
 
 /**
@@ -40,6 +46,8 @@ public class SqliteOperateUtil {
 
     private ProductDao productDao ;
 
+    private ResourceFileDao resourceFileDao ;
+
     private SqliteOperateUtil(){}
 
     public void init(Context context) {
@@ -51,6 +59,7 @@ public class SqliteOperateUtil {
         btnDao = daoSession.getBtnDao();
         customerDao = daoSession.getCustomerDao();
         productDao = daoSession.getProductDao();
+        resourceFileDao = daoSession.getResourceFileDao();
     }
 
     private static class SqliteOperateUtilHolder{
@@ -59,7 +68,6 @@ public class SqliteOperateUtil {
 
     public static SqliteOperateUtil getInstance(){
         return SqliteOperateUtilHolder.sqliteOperateUtil;
-
     }
 
     public BodyInductionDao getBodyInductionDao() {
@@ -76,6 +84,10 @@ public class SqliteOperateUtil {
 
     public ProductDao getProductDao() {
         return productDao;
+    }
+
+    public ResourceFileDao getResourceFileDao(){
+        return resourceFileDao ;
     }
 
     public SQLiteDatabase getDb() {
@@ -112,6 +124,30 @@ public class SqliteOperateUtil {
 
     public void updateProduct(Product product){
         productDao.update(product);
+    }
+
+    //重新装载资源文件列表
+    public void reloadResourceFile(Iterable<ResourceFile> resourceFiles){
+        resourceFileDao.deleteAll();
+        resourceFileDao.insertInTx(resourceFiles);
+    }
+
+    //根据文件名称查询ResourceFile
+    public ResourceFile queryResourceFileByFileName(String fileName){
+        return resourceFileDao.queryBuilder()
+                .where(ResourceFileDao.Properties.FileName.eq(fileName))
+                .build()
+                .unique();
+    }
+
+    //新增资源文件
+    public void insertResourceFile(ResourceFile resourceFile){
+        resourceFileDao.insert(resourceFile);
+    }
+
+    //更新资源文件列表
+    public void updateResourceFile(ResourceFile resourceFile){
+        resourceFileDao.update(resourceFile);
     }
 
 }

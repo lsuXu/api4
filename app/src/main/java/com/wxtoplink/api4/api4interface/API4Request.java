@@ -29,7 +29,7 @@ public interface API4Request {
     String getAPPSecret();
     //设备当前的一些数据，包含内容待定
     @NonNull
-    String getEventData();
+    Object getEventData();
 
     @NonNull
     String getBaseUrl();

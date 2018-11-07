@@ -24,7 +24,19 @@ public final class Heart {
     //数据校验字符串
     private String sign ;
     //设备当前的一些数据，包含内容待定
-    private String eventData ;
+    private Object eventData ;
+
+    public Heart(String eventType, String mac, String versionCode, String cid, String deviceCode, String sendTime, String appKey, String sign, Object eventData) {
+        this.eventType = eventType;
+        this.mac = mac;
+        this.versionCode = versionCode;
+        this.cid = cid;
+        this.deviceCode = deviceCode;
+        this.sendTime = sendTime;
+        this.appKey = appKey;
+        this.sign = sign;
+        this.eventData = eventData;
+    }
 
     public String getEventType() {
         return eventType;
@@ -90,23 +102,11 @@ public final class Heart {
         this.sign = sign;
     }
 
-    public String getEventData() {
+    public Object getEventData() {
         return eventData;
     }
 
-    public void setEventData(String eventData) {
-        this.eventData = eventData;
-    }
-
-    public Heart(String eventType, String mac, String versionCode, String cid, String deviceCode, String sendTime, String appKey, String sign, String eventData) {
-        this.eventType = eventType;
-        this.mac = mac;
-        this.versionCode = versionCode;
-        this.cid = cid;
-        this.deviceCode = deviceCode;
-        this.sendTime = sendTime;
-        this.appKey = appKey;
-        this.sign = sign;
+    public void setEventData(Object eventData) {
         this.eventData = eventData;
     }
 

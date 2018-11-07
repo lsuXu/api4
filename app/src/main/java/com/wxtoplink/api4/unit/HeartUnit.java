@@ -9,12 +9,13 @@ import com.wxtoplink.api4.bean.EventType;
 import com.wxtoplink.api4.bean.Heart;
 import com.wxtoplink.api4.http.RetrofitHelper;
 import com.wxtoplink.api4.util.EncryptionCheckUtil;
+import com.wxtoplink.api4.util.GSONUtils;
 
 import java.util.Date;
 
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MultipartBody;
-import rx.Observable;
-import rx.schedulers.Schedulers;
 
 /**
  * 心跳单元模块
@@ -46,7 +47,7 @@ public class HeartUnit {
 
         String deviceCode = API4Request.getDeviceCode();
 
-        String eventData = API4Request.getEventData();
+        Object eventData = API4Request.getEventData();
 
         return new Heart(eventType,mac,versionCode,cid,deviceCode,sendTime,appKey,sign,eventData);
     }
@@ -64,7 +65,7 @@ public class HeartUnit {
                 getPart("sendTime",heart.getSendTime()),
                 getPart("appKey",heart.getAppKey()),
                 getPart("sign",heart.getSign()),
-                getPart("eventData",heart.getEventData()))
+                getPart("eventData", GSONUtils.toJson(heart.getEventData())))
                 .observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io());
 

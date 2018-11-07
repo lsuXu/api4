@@ -1,5 +1,7 @@
 package com.wxtoplink.api4.bean;
 
+import com.wxtoplink.api4.sqlite.bean.ResourceFile;
+
 import java.util.List;
 
 /**

@@ -49,7 +49,7 @@ public class API4RequestImpl implements API4Request {
 
     @NonNull
     @Override
-    public String getEventData() {
+    public Object getEventData() {
         return "";
     }
 
