@@ -12,6 +12,7 @@ import com.wxtoplink.api4.util.EncryptionCheckUtil;
 import com.wxtoplink.api4.util.GSONUtils;
 
 import java.util.Date;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
@@ -47,7 +48,7 @@ public class HeartUnit {
 
         String deviceCode = API4Request.getDeviceCode();
 
-        Object eventData = API4Request.getEventData();
+        Map eventData = API4Request.getEventData(isInitHeart);
 
         return new Heart(eventType,mac,versionCode,cid,deviceCode,sendTime,appKey,sign,eventData);
     }

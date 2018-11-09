@@ -119,6 +119,11 @@ public final class API4Manager {
         return UncaughtExceptionUnit.getInstance();
     }
 
+    //获取标准命名
+    public StandardName getStandName(){
+        return StandardName.getInstance();
+    }
+
     //检查初始化
     private boolean checkInit(){
         if(init){

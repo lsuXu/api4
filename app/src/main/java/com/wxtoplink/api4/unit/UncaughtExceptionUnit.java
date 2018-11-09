@@ -39,23 +39,33 @@ public class UncaughtExceptionUnit {
         String screenWidth = String.valueOf(DeviceUtil.getScreenWidth(context));
         String screenHeight = String.valueOf(DeviceUtil.getScreenHeight(context));
         String errorTitle = throwable.getMessage();
-        String errorDetail = getDetailMessage(throwable);
+        String errorDetail = getErrorMessage(throwable);
         return new ErrorBean(systemVersion,boardName,versionCode,mac,densityDpi,screenWidth,screenHeight,errorTitle,errorDetail);
 
     }
 
-    //获取详细错误信息
-    public String getDetailMessage(Throwable throwable){
-        String filePath = Environment.getExternalStorageDirectory()+ File.separator + new Date().getTime();
-        String errorMsg = null;
-        if(saveErrorMessage(throwable,filePath)){
-            errorMsg = loadString(filePath);
-        };
-        if(new File(filePath).exists()){
-            new File(filePath).delete();
+
+    public String getErrorMessage(Throwable ex) {
+        ex.printStackTrace();
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(ex.getMessage() + "\n") ;
+
+        StackTraceElement[] stackTraceElements = ex.getStackTrace() ;
+        for(StackTraceElement traceElement : stackTraceElements){
+            stringBuffer.append("\n " + traceElement);
         }
 
-        return errorMsg;
+        Throwable causeThrowable = ex.getCause() ;
+
+        if(causeThrowable != null){
+            stringBuffer.append("\ncause :" + causeThrowable.getMessage());
+
+            for(StackTraceElement causeTraceElement : causeThrowable.getStackTrace()){
+                stringBuffer.append("\n" + causeTraceElement);
+            }
+        }
+
+        return stringBuffer.toString() ;
     }
 
     //保存错误日志信息
@@ -90,7 +100,7 @@ public class UncaughtExceptionUnit {
     }
 
     //从文件中加载内容
-    private String loadString(String filePath){
+    private String getContentByFile(String filePath){
         FileInputStream in = null;
         BufferedReader reader = null ;
         StringBuffer buffer = new StringBuffer();

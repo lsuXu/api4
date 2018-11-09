@@ -3,6 +3,8 @@ package com.wxtoplink.api4.api4interface;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import java.util.Map;
+
 /**
  * Created by 12852 on 2018/10/29.
  */
@@ -29,7 +31,7 @@ public interface API4Request {
     String getAPPSecret();
     //设备当前的一些数据，包含内容待定
     @NonNull
-    Object getEventData();
+    Map getEventData(boolean init);
 
     @NonNull
     String getBaseUrl();
