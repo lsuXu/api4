@@ -48,7 +48,7 @@ public class ResourceFileUtil {
                     String md5 = EncryptionCheckUtil.md5sum(file.getAbsolutePath());
                     String fileName = file.getName();
                     String fileType = fileName.substring(fileName.lastIndexOf(".")+1);
-                    ResourceFile resourceFile = new ResourceFile(fileName, fileType, md5, String.valueOf(file.length()), null);
+                    ResourceFile resourceFile = new ResourceFile(null,fileName, fileType, md5, String.valueOf(file.length()), null,null);
                     fileList.add(resourceFile);
                 } else {
                     fileList.addAll(getLocalResourceList(file,ignoreFolderName));

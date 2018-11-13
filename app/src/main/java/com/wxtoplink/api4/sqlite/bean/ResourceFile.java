@@ -24,74 +24,61 @@ public class ResourceFile {
     private String size ;
     //文件下载地址
     private String fileUrl ;
-
-    public ResourceFile(String fileName, String fileType, String hash, String size, String fileUrl) {
-        this.fileName = fileName;
-        this.fileType = fileType;
-        this.hash = hash;
-        this.size = size;
-        this.fileUrl = fileUrl;
+    //文件相对路径
+    private String path ;
+    public String getPath() {
+        return this.path;
     }
-
+    public void setPath(String path) {
+        this.path = path;
+    }
     public String getFileUrl() {
         return this.fileUrl;
     }
-
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
     }
-
     public String getSize() {
         return this.size;
     }
-
     public void setSize(String size) {
         this.size = size;
     }
-
     public String getHash() {
         return this.hash;
     }
-
     public void setHash(String hash) {
         this.hash = hash;
     }
-
     public String getFileType() {
         return this.fileType;
     }
-
     public void setFileType(String fileType) {
         this.fileType = fileType;
     }
-
     public String getFileName() {
         return this.fileName;
     }
-
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-
     public Long getId() {
         return this.id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
-    @Generated(hash = 868091445)
-    public ResourceFile(Long id, String fileName, String fileType, String hash, String size,
-            String fileUrl) {
+    @Generated(hash = 19438760)
+    public ResourceFile(Long id, String fileName, String fileType, String hash,
+            String size, String fileUrl, String path) {
         this.id = id;
         this.fileName = fileName;
         this.fileType = fileType;
         this.hash = hash;
         this.size = size;
         this.fileUrl = fileUrl;
+        this.path = path;
     }
-
     @Generated(hash = 2116103844)
     public ResourceFile() {
     }
