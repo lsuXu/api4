@@ -35,4 +35,7 @@ public interface API4Request {
 
     @NonNull
     String getBaseUrl();
+
+    @NonNull
+    String getTinkerId();
 }

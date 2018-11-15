@@ -62,5 +62,10 @@ public class API4RequestImpl implements API4Request {
         return "http://192.168.0.163:8010/api4/";
     }
 
+    @NonNull
+    @Override
+    public String getTinkerId() {
+        return "";
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.wxtoplink.api4;
 
+import com.wxtoplink.api4.unit.DateUtil;
+
 import java.util.Date;
 
 /**
@@ -20,11 +22,11 @@ public class StandardName {
     }
 
     public String getCustomerCode(){
-        return String.format("%s_%s",API4Manager.getInstance().getAPI4Request().getDeviceCode(),new Date().getTime()/1000);
+        return String.format("%s_%s",API4Manager.getInstance().getAPI4Request().getDeviceCode(), new Date().getTime()/1000);
     }
 
     public String getImageName(String customerCode){
-        return String.format("%s_%s",customerCode,new Date().getTime()/1000);
+        return String.format("%s_%s.jpg",customerCode,DateUtil.formatDate2String(new Date(),DateUtil.FORMAT_YYYYMMDDHHMMSS));
     }
 
     public String getDataFileName(){

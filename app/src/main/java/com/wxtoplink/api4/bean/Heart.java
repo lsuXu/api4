@@ -25,8 +25,10 @@ public final class Heart {
     private String sign ;
     //设备当前的一些数据，包含内容待定
     private Object eventData ;
+    //设备当前的补丁包版本号
+    private String tinkerId ;
 
-    public Heart(String eventType, String mac, String versionCode, String cid, String deviceCode, String sendTime, String appKey, String sign, Object eventData) {
+    public Heart(String eventType, String mac, String versionCode, String cid, String deviceCode, String sendTime, String appKey, String sign, Object eventData, String tinkerId) {
         this.eventType = eventType;
         this.mac = mac;
         this.versionCode = versionCode;
@@ -36,6 +38,7 @@ public final class Heart {
         this.appKey = appKey;
         this.sign = sign;
         this.eventData = eventData;
+        this.tinkerId = tinkerId;
     }
 
     public String getEventType() {
@@ -110,6 +113,14 @@ public final class Heart {
         this.eventData = eventData;
     }
 
+    public String getTinkerId() {
+        return tinkerId;
+    }
+
+    public void setTinkerId(String tinkerId) {
+        this.tinkerId = tinkerId;
+    }
+
     @Override
     public String toString() {
         return "Heart{" +
@@ -122,6 +133,7 @@ public final class Heart {
                 ", appKey='" + appKey + '\'' +
                 ", sign='" + sign + '\'' +
                 ", eventData=" + eventData +
+                ", tinkerId='" + tinkerId + '\'' +
                 '}';
     }
 }

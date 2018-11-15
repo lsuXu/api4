@@ -48,9 +48,11 @@ public class HeartUnit {
 
         String deviceCode = API4Request.getDeviceCode();
 
+        String tinkerId = API4Request.getTinkerId();
+
         Map eventData = API4Request.getEventData(isInitHeart);
 
-        return new Heart(eventType,mac,versionCode,cid,deviceCode,sendTime,appKey,sign,eventData);
+        return new Heart(eventType,mac,versionCode,cid,deviceCode,sendTime,appKey,sign,eventData,tinkerId);
     }
 
     //生成上报的心跳Observable对象
@@ -66,7 +68,8 @@ public class HeartUnit {
                 getPart("sendTime",heart.getSendTime()),
                 getPart("appKey",heart.getAppKey()),
                 getPart("sign",heart.getSign()),
-                getPart("eventData", GSONUtils.toJson(heart.getEventData())))
+                getPart("eventData", GSONUtils.toJson(heart.getEventData())),
+                getPart("tinkerId",heart.getTinkerId()))
                 .observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io());
 
