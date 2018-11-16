@@ -34,7 +34,7 @@ public final class API4Manager {
 
     public static final MediaType MEDIA_TYPE_FORM = MediaType.parse("multipart/form-data");//MediaType
 
-    private boolean init = false;
+    private boolean init = false ,ignoreCheck = false;
     //数据回调对象
     private API4Response api4Response;
 
@@ -43,10 +43,16 @@ public final class API4Manager {
 
 
     //初始化，必须先初始化，才能调用其他方法，否则会引发异常,可以重复初始化
-    public synchronized void init(API4Response api4Response, API4Request API4Request, Context context){
+    public synchronized void init(API4Response api4Response, API4Request api4Request, Context context){
+        init(api4Response,api4Request,context,false);
+    }
+
+    //初始化，必须先初始化，才能调用其他方法，否则会引发异常,可以重复初始化
+    public synchronized void init(API4Response api4Response, API4Request api4Request, Context context,boolean ignoreCheck){
         init = true ;
+        this.ignoreCheck = ignoreCheck ;
         this.api4Response = api4Response;
-        this.api4Request = API4Request;
+        this.api4Request = api4Request;
         SqliteOperateUtil.getInstance().init(context);
         checkInit();
     }
@@ -126,6 +132,9 @@ public final class API4Manager {
 
     //检查初始化
     private boolean checkInit(){
+        if(ignoreCheck){
+            return true ;
+        }
         if(init){
             if(this.api4Request != null && this.api4Response != null) {
                 return true;

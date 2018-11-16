@@ -1,6 +1,6 @@
 package com.wxtoplink.api4;
 
-import com.wxtoplink.api4.unit.DateUtil;
+import com.wxtoplink.api4.util.DateUtil;
 
 import java.util.Date;
 
@@ -22,6 +22,9 @@ public class StandardName {
     }
 
     public String getCustomerCode(){
+        if(API4Manager.getInstance().getAPI4Request() == null){
+            return String.valueOf(new Date().getTime()/1000) ;
+        }
         return String.format("%s_%s",API4Manager.getInstance().getAPI4Request().getDeviceCode(), new Date().getTime()/1000);
     }
 
@@ -30,14 +33,23 @@ public class StandardName {
     }
 
     public String getDataFileName(){
+        if(API4Manager.getInstance().getAPI4Request() == null){
+            return "data.txt" ;
+        }
         return String.format("%s_%s_data.txt",API4Manager.getInstance().getAPI4Request().getDeviceCode(),new Date().getTime()/1000);
     }
 
     public String getDailyFileName(){
+        if(API4Manager.getInstance().getAPI4Request() == null){
+            return "log.txt" ;
+        }
         return String.format("%s_%s_log.txt",API4Manager.getInstance().getAPI4Request().getDeviceCode(),new Date().getTime()/1000);
     }
 
     public String getErrorFileName(){
+        if(API4Manager.getInstance().getAPI4Request() == null){
+            return "error.txt" ;
+        }
         return String.format("%s_%s_error.txt",API4Manager.getInstance().getAPI4Request().getDeviceCode(),new Date().getTime()/1000);
     }
 }

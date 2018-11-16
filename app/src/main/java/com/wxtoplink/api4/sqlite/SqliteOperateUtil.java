@@ -48,9 +48,14 @@ public class SqliteOperateUtil {
 
     private ResourceFileDao resourceFileDao ;
 
+    private boolean initSuccess ;
+
     private SqliteOperateUtil(){}
 
     public void init(Context context) {
+        if(context == null){
+            return;
+        }
         daoHelp = new DaoMaster.DevOpenHelper(context,"testDb",null);
         db = daoHelp.getWritableDatabase();
         daoMaster = new DaoMaster(db);
@@ -60,6 +65,7 @@ public class SqliteOperateUtil {
         customerDao = daoSession.getCustomerDao();
         productDao = daoSession.getProductDao();
         resourceFileDao = daoSession.getResourceFileDao();
+        initSuccess = true ;
     }
 
     private static class SqliteOperateUtilHolder{
@@ -71,69 +77,117 @@ public class SqliteOperateUtil {
     }
 
     public BodyInductionDao getBodyInductionDao() {
+        if(!initSuccess){
+            return null ;
+        }
         return bodyInductionDao;
     }
 
     public BtnDao getBtnDao() {
+        if(!initSuccess){
+            return null ;
+        }
         return btnDao;
     }
 
     public CustomerDao getCustomerDao() {
+        if(!initSuccess){
+            return null ;
+        }
         return customerDao;
     }
 
     public ProductDao getProductDao() {
+        if(!initSuccess){
+            return null ;
+        }
         return productDao;
     }
 
     public ResourceFileDao getResourceFileDao(){
+        if(!initSuccess){
+            return null ;
+        }
         return resourceFileDao ;
     }
 
     public SQLiteDatabase getDb() {
+        if(!initSuccess){
+            return null ;
+        }
         return db;
     }
 
     public long insertCustomer(Customer customer){
+        if(!initSuccess){
+            return -1 ;
+        }
         return customerDao.insert(customer);
     }
 
     public long insertBtn(Btn btn){
+        if(!initSuccess){
+            return -1 ;
+        }
         return btnDao.insert(btn);
     }
 
     public long insertBodyInduction(BodyInduction bodyInduction){
+        if(!initSuccess){
+            return -1 ;
+        }
         return bodyInductionDao.insert(bodyInduction);
     }
 
     public long insertProduct(Product product){
+        if(!initSuccess){
+            return -1 ;
+        }
         return productDao.insert(product);
     }
 
     public void updateCustomer(Customer customer){
+        if(!initSuccess){
+            return ;
+        }
         customerDao.update(customer);
     }
 
     public void updateBtn(Btn btn){
+        if(!initSuccess){
+            return ;
+        }
         btnDao.update(btn);
     }
 
     public void updateBodyInduction(BodyInduction bodyInduction){
+        if(!initSuccess){
+            return ;
+        }
         bodyInductionDao.update(bodyInduction);
     }
 
     public void updateProduct(Product product){
+        if(!initSuccess){
+            return ;
+        }
         productDao.update(product);
     }
 
     //重新装载资源文件列表
     public void reloadResourceFile(Iterable<ResourceFile> resourceFiles){
+        if(!initSuccess){
+            return ;
+        }
         resourceFileDao.deleteAll();
         resourceFileDao.insertInTx(resourceFiles);
     }
 
     //根据文件名称查询ResourceFile
     public ResourceFile queryResourceFileByFileName(String fileName){
+        if(!initSuccess){
+            return new ResourceFile();
+        }
         return resourceFileDao.queryBuilder()
                 .where(ResourceFileDao.Properties.FileName.eq(fileName))
                 .build()
@@ -142,11 +196,17 @@ public class SqliteOperateUtil {
 
     //新增资源文件
     public void insertResourceFile(ResourceFile resourceFile){
+        if(!initSuccess){
+            return ;
+        }
         resourceFileDao.insert(resourceFile);
     }
 
     //更新资源文件列表
     public void updateResourceFile(ResourceFile resourceFile){
+        if(!initSuccess){
+            return ;
+        }
         resourceFileDao.update(resourceFile);
     }
 

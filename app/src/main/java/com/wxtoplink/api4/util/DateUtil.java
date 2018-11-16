@@ -1,4 +1,4 @@
-package com.wxtoplink.api4.unit;
+package com.wxtoplink.api4.util;
 
 import android.text.TextUtils;
 

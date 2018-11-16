@@ -31,6 +31,10 @@ public class UncaughtExceptionUnit {
     public ErrorBean getErrorBean(Throwable throwable, Context context){
         API4Request api4Request = API4Manager.getInstance().getAPI4Request();
 
+        if(api4Request == null){
+            return new ErrorBean();
+        }
+
         String systemVersion = Build.VERSION.RELEASE;
         String boardName = Build.MODEL;
         String versionCode = api4Request.getVersionCode(context);

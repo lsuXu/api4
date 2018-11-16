@@ -2,6 +2,8 @@ package com.wxtoplink.api4.http;
 
 
 import com.wxtoplink.api4.API4Manager;
+import com.wxtoplink.api4.api4interface.API4Request;
+import com.wxtoplink.api4.api4interface.API4Response;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -45,11 +47,14 @@ public class RetrofitHelper {
             }
         });
 
+        API4Request api4Request = API4Manager.getInstance().getAPI4Request();
+        //基础url
+        String baseUrl = api4Request == null?"":api4Request.getBaseUrl() ;
         retrofit = new Retrofit.Builder()
                 .client(httpClientBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(API4Manager.getInstance().getAPI4Request().getBaseUrl())
+                .baseUrl(baseUrl)
                 .build();
 
         api4Services = retrofit.create(API4Services.class);

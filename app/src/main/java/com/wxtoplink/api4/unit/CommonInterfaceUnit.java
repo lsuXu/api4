@@ -38,6 +38,10 @@ public class CommonInterfaceUnit {
 
         API4Request api4Request = API4Manager.getInstance().getAPI4Request();
 
+        if(api4Request == null){
+            return Observable.empty();
+        }
+
         String mac = api4Request.getMac(context) ;
 
         String sendTime = String.valueOf(new Date().getTime()/1000);

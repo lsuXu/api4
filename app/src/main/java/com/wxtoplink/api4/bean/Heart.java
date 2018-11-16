@@ -28,6 +28,9 @@ public final class Heart {
     //设备当前的补丁包版本号
     private String tinkerId ;
 
+    public Heart() {
+    }
+
     public Heart(String eventType, String mac, String versionCode, String cid, String deviceCode, String sendTime, String appKey, String sign, Object eventData, String tinkerId) {
         this.eventType = eventType;
         this.mac = mac;

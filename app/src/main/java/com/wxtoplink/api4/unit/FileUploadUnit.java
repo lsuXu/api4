@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.wxtoplink.api4.API4Manager;
 import com.wxtoplink.api4.api4interface.API4Request;
+import com.wxtoplink.api4.api4interface.API4Response;
 import com.wxtoplink.api4.http.RetrofitHelper;
 import com.wxtoplink.api4.util.EncryptionCheckUtil;
 
@@ -35,6 +36,10 @@ public class FileUploadUnit {
             MultipartBody.Part filePart = MultipartBody.Part.createFormData("eventFile",file.getName(),requestBody);
             API4Request api4Request = API4Manager.getInstance().getAPI4Request();
 
+            if(api4Request == null){
+                return Observable.empty();
+            }
+
             String mac = api4Request.getMac(context) ;
 
             String sendTime = String.valueOf(new Date().getTime()/1000);
@@ -59,8 +64,10 @@ public class FileUploadUnit {
                     .observeOn(Schedulers.io());
         }
 
-        API4Manager.getInstance().getApi4Response()
-                .onError(new FileNotFoundException(String.format("Error uploading file,file %s does not exist",file.getAbsolutePath())));
+        API4Response api4Response = API4Manager.getInstance().getApi4Response();
+        if(api4Response != null) {
+            api4Response.onError(new FileNotFoundException(String.format("Error uploading file,file %s does not exist", file.getAbsolutePath())));
+        }
         return Observable.empty();
     }
 
@@ -69,7 +76,10 @@ public class FileUploadUnit {
     }
 
     public static void fileUpload(File file, Context context){
-        getUploadObservable(file, context).subscribe(API4Manager.getInstance().getApi4Response().getFileUploadObservable());
+        API4Response api4Response = API4Manager.getInstance().getApi4Response();
+        if(api4Response != null) {
+            getUploadObservable(file, context).subscribe(api4Response.getFileUploadObservable());
+        }
     }
 
     public static void fileUpload(File file,Context context,Observer observer){

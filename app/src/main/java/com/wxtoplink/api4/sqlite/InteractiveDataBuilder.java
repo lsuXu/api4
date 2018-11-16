@@ -76,6 +76,9 @@ public class InteractiveDataBuilder {
     //构建用户数据
     public InteractiveData buildCustomer(){
         CustomerDao customerDao = SqliteOperateUtil.getInstance().getCustomerDao();
+        if(customerDao == null){
+            return new InteractiveData();
+        }
         List<Customer> customers =  customerDao.queryBuilder().where(CustomerDao.Properties.State.eq(0)).build().list();
         for(Customer customer:customers){
             customer.setState(1);
@@ -88,6 +91,9 @@ public class InteractiveDataBuilder {
     //构建用户点击数据
     public InteractiveData buildBtn(){
         BtnDao btnDao = SqliteOperateUtil.getInstance().getBtnDao();
+        if(btnDao == null){
+            return new InteractiveData();
+        }
         List<Btn> btns =  btnDao.queryBuilder().where(BtnDao.Properties.State.eq(0)).build().list();
         for(Btn btn:btns){
             btn.setState(1);
@@ -100,6 +106,9 @@ public class InteractiveDataBuilder {
     //构建产品拿起放下数据数据
     public InteractiveData buildProduct(){
         ProductDao productDao = SqliteOperateUtil.getInstance().getProductDao();
+        if(productDao == null){
+            return new InteractiveData();
+        }
         List<Product> products =  productDao.queryBuilder().where(ProductDao.Properties.State.eq(0)).build().list();
         for(Product product:products){
             product.setState(1);
@@ -111,6 +120,9 @@ public class InteractiveDataBuilder {
 
     public InteractiveData buildBodyInduction(){
         BodyInductionDao bodyInductionDao = SqliteOperateUtil.getInstance().getBodyInductionDao();
+        if(bodyInductionDao == null){
+            return new InteractiveData();
+        }
         List<BodyInduction> bodyInductions = bodyInductionDao.queryBuilder().where(BodyInductionDao.Properties.State.eq(0)).build().list();
         for(BodyInduction bodyInduction:bodyInductions){
             bodyInduction.setState(1);

@@ -28,6 +28,9 @@ public class InteractiveData<T> {
         this.data = data;
     }
 
+    public InteractiveData() {
+    }
+
     public InteractiveData(String eventType, List<T> data) {
         this.eventType = eventType;
         this.data = data;

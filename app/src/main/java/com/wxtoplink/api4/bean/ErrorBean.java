@@ -116,4 +116,7 @@ public class ErrorBean {
         this.errorTitle = errorTitle;
         this.errorMessage = errorMessage;
     }
+
+    public ErrorBean() {
+    }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.wxtoplink.api4.API4Manager;
 import com.wxtoplink.api4.api4interface.API4Request;
+import com.wxtoplink.api4.api4interface.API4Response;
 import com.wxtoplink.api4.bean.EventType;
 import com.wxtoplink.api4.bean.Heart;
 import com.wxtoplink.api4.http.RetrofitHelper;
@@ -30,27 +31,31 @@ public class HeartUnit {
     //获取心跳对象
     public Heart getHeartArray(Context context, boolean isInitHeart){
 
-        API4Request API4Request = API4Manager.getInstance().getAPI4Request();
+        API4Request api4Request = API4Manager.getInstance().getAPI4Request();
+
+        if(api4Request == null){
+            return new Heart();
+        }
 
         String eventType = isInitHeart? EventType.TYPE_1.toString():EventType.TYPE_2.toString() ;
 
-        String mac = API4Request.getMac(context) ;
+        String mac = api4Request.getMac(context) ;
 
         String sendTime = String.valueOf(new Date().getTime()/1000);
 
-        String versionCode = API4Request.getVersionCode(context);
+        String versionCode = api4Request.getVersionCode(context);
 
-        String appKey = API4Request.getAppKey();
+        String appKey = api4Request.getAppKey();
 
-        String sign = EncryptionCheckUtil.encryptToSHA(String.format("%s%s%s%s%s",appKey, API4Request.getAPPSecret(),mac,sendTime,versionCode));
+        String sign = EncryptionCheckUtil.encryptToSHA(String.format("%s%s%s%s%s",appKey, api4Request.getAPPSecret(),mac,sendTime,versionCode));
 
-        String cid = API4Request.getCid();
+        String cid = api4Request.getCid();
 
-        String deviceCode = API4Request.getDeviceCode();
+        String deviceCode = api4Request.getDeviceCode();
 
-        String tinkerId = API4Request.getTinkerId();
+        String tinkerId = api4Request.getTinkerId();
 
-        Map eventData = API4Request.getEventData(isInitHeart);
+        Map eventData = api4Request.getEventData(isInitHeart);
 
         return new Heart(eventType,mac,versionCode,cid,deviceCode,sendTime,appKey,sign,eventData,tinkerId);
     }
@@ -77,8 +82,12 @@ public class HeartUnit {
 
     //上传心跳
     public void sendHeart(Context context, boolean init){
-        getHeartObservable(context, init)
-                .subscribe(API4Manager.getInstance().getApi4Response().getHeartSubscribe());
+        API4Response api4Response = API4Manager.getInstance().getApi4Response() ;
+        if(api4Response != null) {
+
+            getHeartObservable(context, init)
+                    .subscribe(api4Response.getHeartSubscribe());
+        }
     }
 
     private static MultipartBody.Part getPart(String key, String value){
