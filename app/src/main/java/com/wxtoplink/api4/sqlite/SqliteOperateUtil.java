@@ -3,6 +3,8 @@ package com.wxtoplink.api4.sqlite;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.wxtoplink.api4.API4Manager;
+import com.wxtoplink.api4.api4interface.API4Request;
 import com.wxtoplink.api4.sqlite.bean.BodyInduction;
 import com.wxtoplink.api4.sqlite.bean.Btn;
 import com.wxtoplink.api4.sqlite.bean.Customer;
@@ -53,10 +55,18 @@ public class SqliteOperateUtil {
     private SqliteOperateUtil(){}
 
     public void init(Context context) {
-        if(context == null){
+        API4Request api4Request = API4Manager.getInstance().getAPI4Request();
+        if(api4Request == null ||context == null){
             return;
         }
-        daoHelp = new DaoMaster.DevOpenHelper(context,"testDb",null);
+
+        //获取数据库名称
+        String dbName = api4Request.getDbName() ;
+        if(dbName == null || dbName.length() == 0){
+            dbName = "api4DB" ;//设置默认的数据库名称
+        }
+
+        daoHelp = new DaoMaster.DevOpenHelper(context, dbName,null);
         db = daoHelp.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();

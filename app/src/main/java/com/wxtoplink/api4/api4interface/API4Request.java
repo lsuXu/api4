@@ -3,6 +3,8 @@ package com.wxtoplink.api4.api4interface;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import org.greenrobot.greendao.annotation.NotNull;
+
 import java.util.Map;
 
 /**
@@ -33,9 +35,15 @@ public interface API4Request {
     @NonNull
     Map getEventData(boolean init);
 
+    //网络访问的基础URL
     @NonNull
     String getBaseUrl();
 
+    //数据库名称
+    @NotNull
+    String getDbName();
+
+    //补丁包版本
     @NonNull
     String getTinkerId();
 }
