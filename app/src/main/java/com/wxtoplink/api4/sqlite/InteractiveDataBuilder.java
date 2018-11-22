@@ -1,5 +1,6 @@
 package com.wxtoplink.api4.sqlite;
 
+import com.wxtoplink.api4.api4interface.API4DBOperateCallBack;
 import com.wxtoplink.api4.bean.EventType;
 import com.wxtoplink.api4.sqlite.bean.BodyInduction;
 import com.wxtoplink.api4.sqlite.bean.Btn;
@@ -10,6 +11,7 @@ import com.wxtoplink.api4.sqlite.db.BodyInductionDao;
 import com.wxtoplink.api4.sqlite.db.BtnDao;
 import com.wxtoplink.api4.sqlite.db.CustomerDao;
 import com.wxtoplink.api4.sqlite.db.ProductDao;
+import com.wxtoplink.api4.util.GSONUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +25,12 @@ import java.util.List;
 public class InteractiveDataBuilder {
 
     private boolean customer = false,btn = false ,bodyInduction = false,product = false ;
+
+    private final API4DBOperateCallBack api4DBOperateCallBack ;
+
+    public InteractiveDataBuilder() {
+        this.api4DBOperateCallBack = SqliteOperateUtil.getInstance().getApi4DBOperateCallBack();
+    }
 
     public InteractiveDataBuilder customer(){
         customer = true ;
@@ -61,7 +69,9 @@ public class InteractiveDataBuilder {
                 interactiveDataList.add(buildBodyInduction());
             }
             customer = false;btn = false;product = false;bodyInduction = false;
-
+            if(api4DBOperateCallBack != null){
+                api4DBOperateCallBack.operateData(GSONUtils.toJson(interactiveDataList),OperateType.QUERY);
+            }
             return interactiveDataList;
         }
 
@@ -70,7 +80,12 @@ public class InteractiveDataBuilder {
 
     //构建所有的交互数据
     public List<InteractiveData> buildAll(){
-        return Arrays.asList(buildCustomer(),buildBtn(),buildProduct(),buildBodyInduction());
+        List<InteractiveData> list = Arrays.asList(buildCustomer(),buildBtn(),buildProduct(),buildBodyInduction());
+        if(api4DBOperateCallBack != null){
+            api4DBOperateCallBack.operateData(GSONUtils.toJson(list),OperateType.QUERY);
+        }
+
+        return list ;
     }
 
     //构建用户数据

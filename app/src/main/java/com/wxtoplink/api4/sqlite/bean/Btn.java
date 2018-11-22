@@ -88,6 +88,16 @@ public class Btn {
         this.id = id;
     }
 
+    public Btn(String clickTime, String customerCode, String buttonCode, String productCode, String pageCode) {
+        this.id = null;
+        this.clickTime = clickTime;
+        this.customerCode = customerCode;
+        this.buttonCode = buttonCode;
+        this.productCode = productCode;
+        this.pageCode = pageCode;
+        this.state = 0;
+    }
+
     @Generated(hash = 1999131576)
     public Btn(Long id, String clickTime, String customerCode, String buttonCode,
             String productCode, String pageCode, int state) {

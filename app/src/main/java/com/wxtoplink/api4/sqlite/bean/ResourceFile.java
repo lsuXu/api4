@@ -68,6 +68,17 @@ public class ResourceFile {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public ResourceFile(String fileName, String fileType, String hash, String size, String fileUrl, String path) {
+        this.id = null ;
+        this.fileName = fileName;
+        this.fileType = fileType;
+        this.hash = hash;
+        this.size = size;
+        this.fileUrl = fileUrl;
+        this.path = path;
+    }
+
     @Generated(hash = 19438760)
     public ResourceFile(Long id, String fileName, String fileType, String hash,
             String size, String fileUrl, String path) {

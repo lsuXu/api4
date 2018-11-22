@@ -77,6 +77,15 @@ public class BodyInduction {
         this.id = id;
     }
 
+    public BodyInduction(int type, String startTime, String endTime, String customerCode) {
+        this.id = null;
+        this.type = type;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.customerCode = customerCode;
+        this.state = 0;
+    }
+
     @Generated(hash = 652040661)
     public BodyInduction(Long id, int type, String startTime, String endTime,
             String customerCode, int state) {

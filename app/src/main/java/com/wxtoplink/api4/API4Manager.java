@@ -2,6 +2,7 @@ package com.wxtoplink.api4;
 
 import android.content.Context;
 
+import com.wxtoplink.api4.api4interface.API4DBOperateCallBack;
 import com.wxtoplink.api4.api4interface.API4Response;
 import com.wxtoplink.api4.api4interface.API4Request;
 import com.wxtoplink.api4.sqlite.InteractiveDataBuilder;
@@ -40,7 +41,6 @@ public final class API4Manager {
 
     //不同设备传入的一些基本数据
     private API4Request api4Request;
-
 
     //初始化，必须先初始化，才能调用其他方法，否则会引发异常,可以重复初始化
     public synchronized void init(API4Response api4Response, API4Request api4Request, Context context){
@@ -145,6 +145,10 @@ public final class API4Manager {
         }else{
             throw new IllegalStateException("Call init() to initialize the API4Manager before using this method)");
         }
+    }
+
+    public void setAPI4DBOperateCallBack(API4DBOperateCallBack api4DBOperateCallBack){
+        SqliteOperateUtil.getInstance().setApi4DBOperateCallBack(api4DBOperateCallBack);
     }
 
     public static API4Manager getInstance(){

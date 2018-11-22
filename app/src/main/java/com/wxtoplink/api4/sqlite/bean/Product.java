@@ -121,6 +121,19 @@ public class Product {
         this.id = id;
     }
 
+    public Product(int type, String startTime, String endTime, String customerCode, String productCode, String pointCode, String startWeight, String endWeight) {
+        this.id = null;
+        this.type = type;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.customerCode = customerCode;
+        this.productCode = productCode;
+        this.pointCode = pointCode;
+        this.startWeight = startWeight;
+        this.endWeight = endWeight;
+        this.state = 0;
+    }
+
     @Generated(hash = 1025172575)
     public Product(Long id, int type, String startTime, String endTime,
             String customerCode, String productCode, String pointCode,

@@ -99,6 +99,17 @@ public class Customer {
         this.id = id;
     }
 
+    public Customer(String startTime, String endTime, String customerCode, int sex, int age, String imgName) {
+        this.id = null ;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.customerCode = customerCode;
+        this.sex = sex;
+        this.age = age;
+        this.imgName = imgName;
+        this.state = 0;
+    }
+
     @Generated(hash = 146024361)
     public Customer(Long id, String startTime, String endTime, String customerCode,
             int sex, int age, String imgName, int state) {
