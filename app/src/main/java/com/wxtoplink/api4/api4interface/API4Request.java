@@ -2,6 +2,7 @@ package com.wxtoplink.api4.api4interface;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
@@ -38,6 +39,10 @@ public interface API4Request {
     //网络访问的基础URL
     @NonNull
     String getBaseUrl();
+
+    //数据库文件存储目录
+    @Nullable
+    String getDBFolder();
 
     //数据库名称
     @NotNull

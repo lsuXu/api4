@@ -5,6 +5,7 @@ import android.content.Context;
 import com.wxtoplink.api4.api4interface.API4DBOperateCallBack;
 import com.wxtoplink.api4.api4interface.API4Response;
 import com.wxtoplink.api4.api4interface.API4Request;
+import com.wxtoplink.api4.sqlite.DBContext;
 import com.wxtoplink.api4.sqlite.InteractiveDataBuilder;
 import com.wxtoplink.api4.sqlite.SqliteOperateUtil;
 import com.wxtoplink.api4.unit.FileUploadUnit;
@@ -53,7 +54,7 @@ public final class API4Manager {
         this.ignoreCheck = ignoreCheck ;
         this.api4Response = api4Response;
         this.api4Request = api4Request;
-        SqliteOperateUtil.getInstance().init(context);
+        SqliteOperateUtil.getInstance().init(new DBContext(context,api4Request.getDBFolder()));
         checkInit();
     }
 
