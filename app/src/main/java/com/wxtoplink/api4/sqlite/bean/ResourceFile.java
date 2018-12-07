@@ -1,5 +1,7 @@
 package com.wxtoplink.api4.sqlite.bean;
 
+import com.wxtoplink.api4.constant.Status;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
@@ -26,6 +28,25 @@ public class ResourceFile {
     private String fileUrl ;
     //文件相对路径
     private String path ;
+    //外键，与Resource关联
+    private long resourceId ;
+    //标志下载状态
+    private int status ;
+    public int getStatus() {
+        return this.status;
+    }
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    public void setStatus(Status status){
+        this.status = status.getStatusId() ;
+    }
+    public long getResourceId() {
+        return this.resourceId;
+    }
+    public void setResourceId(long resourceId) {
+        this.resourceId = resourceId;
+    }
     public String getPath() {
         return this.path;
     }
@@ -68,20 +89,9 @@ public class ResourceFile {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public ResourceFile(String fileName, String fileType, String hash, String size, String fileUrl, String path) {
-        this.id = null ;
-        this.fileName = fileName;
-        this.fileType = fileType;
-        this.hash = hash;
-        this.size = size;
-        this.fileUrl = fileUrl;
-        this.path = path;
-    }
-
-    @Generated(hash = 19438760)
+    @Generated(hash = 723366981)
     public ResourceFile(Long id, String fileName, String fileType, String hash,
-            String size, String fileUrl, String path) {
+            String size, String fileUrl, String path, long resourceId, int status) {
         this.id = id;
         this.fileName = fileName;
         this.fileType = fileType;
@@ -89,10 +99,12 @@ public class ResourceFile {
         this.size = size;
         this.fileUrl = fileUrl;
         this.path = path;
+        this.resourceId = resourceId;
+        this.status = status;
     }
     @Generated(hash = 2116103844)
     public ResourceFile() {
     }
-    
+
 
 }

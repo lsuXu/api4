@@ -1,5 +1,9 @@
 package com.wxtoplink.api4.bean;
 
+import com.wxtoplink.api4.sqlite.bean.Resource;
+
+import java.util.List;
+
 /**
  * Created by 12852 on 2018/10/29.
  */
@@ -12,7 +16,7 @@ public final class HeartResponse {
 
     private VersionInfo versionInfo;
 
-    private Resource resource;
+    private List<Resource> resource;
 
     public String getDeviceCode() {
         return deviceCode;
@@ -26,7 +30,7 @@ public final class HeartResponse {
         return versionInfo;
     }
 
-    public Resource getResource() {
+    public List<Resource> getResource() {
         return resource;
     }
 

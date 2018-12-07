@@ -4,8 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.greenrobot.greendao.annotation.NotNull;
-
 import java.util.Map;
 
 /**
@@ -45,7 +43,7 @@ public interface API4Request {
     String getDBFolder();
 
     //数据库名称
-    @NotNull
+    @NonNull
     String getDbName();
 
     //补丁包版本

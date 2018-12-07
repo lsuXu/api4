@@ -6,10 +6,13 @@ import android.database.sqlite.SQLiteDatabase;
 import com.wxtoplink.api4.API4Manager;
 import com.wxtoplink.api4.api4interface.API4DBOperateCallBack;
 import com.wxtoplink.api4.api4interface.API4Request;
+import com.wxtoplink.api4.constant.ResourceType;
+import com.wxtoplink.api4.constant.Status;
 import com.wxtoplink.api4.sqlite.bean.BodyInduction;
 import com.wxtoplink.api4.sqlite.bean.Btn;
 import com.wxtoplink.api4.sqlite.bean.Customer;
 import com.wxtoplink.api4.sqlite.bean.Product;
+import com.wxtoplink.api4.sqlite.bean.Resource;
 import com.wxtoplink.api4.sqlite.bean.ResourceFile;
 import com.wxtoplink.api4.sqlite.db.BodyInductionDao;
 import com.wxtoplink.api4.sqlite.db.BtnDao;
@@ -17,10 +20,14 @@ import com.wxtoplink.api4.sqlite.db.CustomerDao;
 import com.wxtoplink.api4.sqlite.db.DaoMaster;
 import com.wxtoplink.api4.sqlite.db.DaoSession;
 import com.wxtoplink.api4.sqlite.db.ProductDao;
+import com.wxtoplink.api4.sqlite.db.ResourceDao;
 import com.wxtoplink.api4.sqlite.db.ResourceFileDao;
 import com.wxtoplink.api4.util.GSONUtils;
 
+import org.greenrobot.greendao.query.WhereCondition;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -50,6 +57,8 @@ public class SqliteOperateUtil {
 
     private ResourceFileDao resourceFileDao ;
 
+    private ResourceDao resourceDao ;
+
     private boolean initSuccess ;
 
     private API4DBOperateCallBack api4DBOperateCallBack ;
@@ -77,6 +86,7 @@ public class SqliteOperateUtil {
         customerDao = daoSession.getCustomerDao();
         productDao = daoSession.getProductDao();
         resourceFileDao = daoSession.getResourceFileDao();
+        resourceDao = daoSession.getResourceDao();
         initSuccess = true ;
     }
 
@@ -94,6 +104,10 @@ public class SqliteOperateUtil {
 
     public static SqliteOperateUtil getInstance(){
         return SqliteOperateUtilHolder.sqliteOperateUtil;
+    }
+
+    public ResourceDao getResourceDao() {
+        return initSuccess?resourceDao:null;
     }
 
     public BodyInductionDao getBodyInductionDao() {
@@ -202,17 +216,6 @@ public class SqliteOperateUtil {
         productDao.update(product);
     }
 
-    //重新装载资源文件列表
-    public void reloadResourceFile(Iterable<ResourceFile> resourceFiles){
-        if(!initSuccess){
-            return ;
-        }
-        operateDataCall(resourceFileDao.loadAll(),OperateType.DELETE);
-        resourceFileDao.deleteAll();
-        operateDataCall(resourceFiles,OperateType.INSERT);
-        resourceFileDao.insertInTx(resourceFiles);
-    }
-
     //根据文件名称查询ResourceFile
     public ResourceFile queryResourceFileByFileName(String fileName){
         if(!initSuccess){
@@ -244,10 +247,59 @@ public class SqliteOperateUtil {
         resourceFileDao.update(resourceFile);
     }
 
+    //新增资源类别
+    public long insertResource(Resource resource){
+        if(!initSuccess){
+            return -1;
+        }
+        operateDataCall(resource,OperateType.INSERT);
+        return resourceDao.insert(resource);
+    }
+
+    //更新资源类别
+    public void updateResource(Resource resource){
+        if(!initSuccess){
+            return ;
+        }
+        operateDataCall(resource,OperateType.UPDATE);
+    }
+
+    //根据条件查询唯一的资源类别
+    public Resource queryResourceUnique(WhereCondition cond, WhereCondition... condMore){
+        if(!initSuccess){
+            return null;
+        }
+        return resourceDao.queryBuilder().where(cond,condMore).unique();
+    }
+
+    //根据条件查询资源类别列表
+    public List<Resource> queryResourceList(WhereCondition cond, WhereCondition... condMore){
+        if(!initSuccess){
+            return new ArrayList<>();
+        }
+        return resourceDao.queryBuilder().where(cond,condMore).list();
+    }
+
+    //获取当前资源类别的可用版本
+    public Resource queryEnableResource(ResourceType resourceType){
+        return queryEnableResource(resourceType.getTypeId());
+    }
+
+    public Resource queryEnableResource(long resourceTypeId){
+        if(!initSuccess){
+            return null ;
+        }
+        return resourceDao.queryBuilder()
+                .where(ResourceDao.Properties.TypeId.eq(resourceTypeId)
+                        ,ResourceDao.Properties.Status.eq(Status.ENABLE.getStatusId())).unique();
+    }
+
     private void operateDataCall(Object obj,OperateType type){
         if(api4DBOperateCallBack != null){
             api4DBOperateCallBack.operateData(GSONUtils.toJson(obj),type);
         }
     }
+
+
 
 }

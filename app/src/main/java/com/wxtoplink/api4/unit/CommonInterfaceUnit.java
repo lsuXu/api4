@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.wxtoplink.api4.API4Manager;
 import com.wxtoplink.api4.api4interface.API4Request;
-import com.wxtoplink.api4.bean.Resource;
 import com.wxtoplink.api4.bean.ResponseData;
 import com.wxtoplink.api4.http.RetrofitHelper;
 import com.wxtoplink.api4.util.EncryptionCheckUtil;
@@ -12,7 +11,6 @@ import com.wxtoplink.api4.util.GSONUtils;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
-import java.io.File;
 import java.util.Date;
 
 import io.reactivex.Observable;
