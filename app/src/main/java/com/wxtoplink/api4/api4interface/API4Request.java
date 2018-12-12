@@ -42,6 +42,9 @@ public interface API4Request {
     @Nullable
     String getDBFolder();
 
+    @NonNull
+    String getProjectPath();
+
     //数据库名称
     @NonNull
     String getDbName();

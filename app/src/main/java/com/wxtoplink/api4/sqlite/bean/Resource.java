@@ -37,6 +37,9 @@ public class Resource {
     //资源版本号
     private String version ;
 
+    //资源的前缀基础路径，index.html 跟在该路径后
+    private String prefixPath ;
+
     @ToMany(referencedJoinProperty = "resourceId")
     private List<ResourceFile> fileList ;
 
@@ -119,6 +122,14 @@ public class Resource {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
+    public String getPrefixPath() {
+        return this.prefixPath;
+    }
+
+    public void setPrefixPath(String prefixPath) {
+        this.prefixPath = prefixPath;
+    }
+
     public String getVersion() {
         return this.version;
     }
@@ -159,27 +170,28 @@ public class Resource {
         this.id = id;
     }
 
-    @Generated(hash = 800143181)
+    @Generated(hash = 2074298078)
     public Resource(Long id, long typeId, String typeName, int status,
-            String version) {
+            String version, String prefixPath) {
         this.id = id;
         this.typeId = typeId;
         this.typeName = typeName;
         this.status = status;
         this.version = version;
+        this.prefixPath = prefixPath;
     }
 
     @Generated(hash = 632359988)
     public Resource() {
     }
 
-    public Resource(ResourceType resourceType , Status status, String version, List<ResourceFile> fileList) {
+    public Resource(ResourceType resourceType , Status status, String prefixPath, String version, List<ResourceFile> fileList) {
         this.typeId = resourceType.getTypeId();
         this.typeName = resourceType.getTypeName();
         this.status = status.getStatusId();
         this.version = version;
         this.fileList = fileList;
+        this.prefixPath = prefixPath ;
     }
-
 
 }
