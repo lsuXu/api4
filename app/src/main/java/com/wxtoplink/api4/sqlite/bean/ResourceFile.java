@@ -26,6 +26,36 @@ public class ResourceFile {
     private String fileUrl ;
     //文件相对路径
     private String path ;
+    //文件下载状态
+    private long status;
+
+    public ResourceFile(String fileName, String fileType, String hash, String size, String fileUrl, String path,long status) {
+        this.id = null ;
+        this.fileName = fileName;
+        this.fileType = fileType;
+        this.hash = hash;
+        this.size = size;
+        this.fileUrl = fileUrl;
+        this.path = path;
+        this.status = status ;
+    }
+
+    @Generated(hash = 525216594)
+    public ResourceFile(Long id, String fileName, String fileType, String hash,
+            String size, String fileUrl, String path, long status) {
+        this.id = id;
+        this.fileName = fileName;
+        this.fileType = fileType;
+        this.hash = hash;
+        this.size = size;
+        this.fileUrl = fileUrl;
+        this.path = path;
+        this.status = status;
+    }
+    @Generated(hash = 2116103844)
+    public ResourceFile() {
+    }
+
     public String getPath() {
         return this.path;
     }
@@ -68,31 +98,11 @@ public class ResourceFile {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public ResourceFile(String fileName, String fileType, String hash, String size, String fileUrl, String path) {
-        this.id = null ;
-        this.fileName = fileName;
-        this.fileType = fileType;
-        this.hash = hash;
-        this.size = size;
-        this.fileUrl = fileUrl;
-        this.path = path;
+    public long getStatus() {
+        return this.status;
     }
-
-    @Generated(hash = 19438760)
-    public ResourceFile(Long id, String fileName, String fileType, String hash,
-            String size, String fileUrl, String path) {
-        this.id = id;
-        this.fileName = fileName;
-        this.fileType = fileType;
-        this.hash = hash;
-        this.size = size;
-        this.fileUrl = fileUrl;
-        this.path = path;
+    public void setStatus(long status) {
+        this.status = status;
     }
-    @Generated(hash = 2116103844)
-    public ResourceFile() {
-    }
-    
 
 }

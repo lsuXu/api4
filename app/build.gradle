@@ -9,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0.1"
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -64,5 +64,5 @@ task makeJar(type:Copy){
 //    include('greendao-api-3.1.0.jar')
 //    include('greendao-3.1.0.jar')
     //重命名
-    rename('classes.jar','api4_support_1_0_1.jar')
+    rename('classes.jar','api4_support_1_0_2.jar')
 }

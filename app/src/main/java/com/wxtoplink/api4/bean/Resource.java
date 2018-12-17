@@ -10,12 +10,21 @@ import java.util.List;
 
 public class Resource {
 
+    private long typeId;
+
+    private String typeName;
+
     private String version ;
+
+    private String prefixPath;
 
     private List<ResourceFile> fileList ;
 
-    public Resource(String version, List<ResourceFile> fileList) {
+    public Resource(long typeId, String typeName, String version, String prefixPath, List<ResourceFile> fileList) {
+        this.typeId = typeId;
+        this.typeName = typeName;
         this.version = version;
+        this.prefixPath = prefixPath;
         this.fileList = fileList;
     }
 
@@ -33,5 +42,29 @@ public class Resource {
 
     public void setFileList(List<ResourceFile> fileList) {
         this.fileList = fileList;
+    }
+
+    public long getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(long typeId) {
+        this.typeId = typeId;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getPrefixPath() {
+        return prefixPath;
+    }
+
+    public void setPrefixPath(String prefixPath) {
+        this.prefixPath = prefixPath;
     }
 }
