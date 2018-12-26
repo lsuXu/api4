@@ -12,7 +12,7 @@ public enum ResourceType {
     WELCOME_PAGE(3,"welcomePage"),
     LEAVE_PAGE(4,"leavePage"),
     PICK_UP_PAGE(5,"pickUpPage"),
-    PUT_DOWN_PAGE(6,"putDownPage") ;
+    PICK_DOWN_PAGE(6,"pickDownPage") ;
 
     private ResourceType(long typeId,String typeName) {
         this.typeId = typeId;
